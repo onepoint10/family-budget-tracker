@@ -1,33 +1,34 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import * as SQLite from 'expo-sqlite';
-
-const db = SQLite.openDatabase('family_budget.db');
+import db from '../utils/crossPlatformDb';
+import { Platform } from 'react-native';
 
 const DatabaseContext = createContext<any>(null);
 
 export const DatabaseProvider = ({ children }: { children: React.ReactNode }) => {
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState(Platform.OS === 'web');
 
   useEffect(() => {
-    db.transaction(tx => {
-      tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS transactions (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          type TEXT,
-          category TEXT,
-          amount REAL,
-          date TEXT,
-          note TEXT
-        );`
-      );
-      tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS categories (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT,
-          type TEXT
-        );`
-      );
-    }, undefined, () => setReady(true));
+    if (Platform.OS !== 'web') {
+      db.transaction((tx: any) => {
+        tx.executeSql(
+          `CREATE TABLE IF NOT EXISTS transactions (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            type TEXT,
+            category TEXT,
+            amount REAL,
+            date TEXT,
+            note TEXT
+          );`
+        );
+        tx.executeSql(
+          `CREATE TABLE IF NOT EXISTS categories (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            type TEXT
+          );`
+        );
+      }, undefined, () => setReady(true));
+    }
   }, []);
 
   return (
