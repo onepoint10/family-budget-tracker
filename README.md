@@ -10,12 +10,19 @@ A modern, cross-platform application for convenient and fast management of famil
 - 🏷️ Custom categories for income and expenses
 - 🔄 Import/export data for backup and sharing
 - 🌙 Light and dark mode support
-- 🔒 Local data storage (SQLite)
+- 🔒 Local data storage (SQLite, IndexedDB, or sqlite3 depending on platform)
 - 🚀 Automated builds and releases via GitHub Actions
 
-## Screenshots
+## Database Support by Platform
 
-> _Add screenshots here after your first build!_
+- **iOS/Android:** Uses expo-sqlite (native SQLite database)
+- **Web:** Uses IndexedDB via [localforage](https://github.com/localForage/localForage)
+- **Electron/Desktop:** Uses [sqlite3](https://www.npmjs.com/package/sqlite3) Node.js module
+
+> All database access is routed through platform-specific files in `src/utils/`:
+> - `crossPlatformDb.native.ts` (expo-sqlite)
+> - `crossPlatformDb.web.ts` (localforage)
+> - `crossPlatformDb.electron.ts` (sqlite3)
 
 ## Getting Started
 
@@ -36,6 +43,14 @@ A modern, cross-platform application for convenient and fast management of famil
    npm install
    # or
    yarn install
+   ```
+3. For web support, install localforage:
+   ```sh
+   npm install localforage
+   ```
+4. For Electron/desktop support, install sqlite3:
+   ```sh
+   npm install sqlite3
    ```
 
 ### Running the App
