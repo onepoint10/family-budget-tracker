@@ -1,107 +1,36 @@
-# Family Budget Tracker
+# Family Budget Tracker (Web Lite)
 
-A modern, cross-platform application for convenient and fast management of family expenses and income. Built with React Native (Expo) for mobile/web and Electron for desktop, it features a clean, intuitive interface and all the tools you need to stay on top of your finances.
+This is a web-only, lite version of the Family Budget Tracker. It is designed to run in the browser with zero native dependencies and no expo-sqlite issues.
 
 ## Features
-
-- 📱 Multi-platform: Android, iOS, Web, Windows, macOS, Linux
-- 💸 Track income and expenses with categories
-- 📊 Visualize spending with charts and reports
-- 🏷️ Custom categories for income and expenses
-- 🔄 Import/export data for backup and sharing
-- 🌙 Light and dark mode support
-- 🔒 Local data storage (SQLite, IndexedDB, or sqlite3 depending on platform)
-- 🚀 Automated builds and releases via GitHub Actions
-
-## Database Support by Platform
-
-- **iOS/Android:** Uses expo-sqlite (native SQLite database)
-- **Web:** Uses IndexedDB via [localforage](https://github.com/localForage/localForage)
-- **Electron/Desktop:** Uses [sqlite3](https://www.npmjs.com/package/sqlite3) Node.js module
-
-> All database access is routed through platform-specific files in `src/utils/`:
-> - `crossPlatformDb.native.ts` (expo-sqlite)
-> - `crossPlatformDb.web.ts` (localforage)
-> - `crossPlatformDb.electron.ts` (sqlite3)
+- 100% web-based: works in any modern browser
+- Uses IndexedDB via localforage for persistent storage
+- No native code, no expo-sqlite, no mobile/Electron support
 
 ## Getting Started
 
-### Prerequisites
-- Node.js (v18+ recommended)
-- npm or yarn
-- [Expo CLI](https://docs.expo.dev/get-started/installation/)
-
-### Installation
-
-1. Clone the repository:
+1. Clone the repository and switch to the web-lite branch:
    ```sh
    git clone https://github.com/onepoint10/family-budget-tracker.git
    cd family-budget-tracker
+   git checkout web-lite
    ```
 2. Install dependencies:
    ```sh
    npm install
-   # or
-   yarn install
    ```
-3. For web support, install localforage:
+3. Start the web app:
    ```sh
-   npm install localforage
-   ```
-4. For Electron/desktop support, install sqlite3:
-   ```sh
-   npm install sqlite3
+   npm run web
    ```
 
-### Running the App
+## Database
+- All data is stored in the browser using IndexedDB (via localforage).
+- No SQLite or native modules are used.
 
-#### Mobile (Expo Go)
-```sh
-npm start
-```
-Scan the QR code with Expo Go on your phone.
-
-#### Web
-```sh
-npm run web
-```
-
-#### Desktop (Electron)
-```sh
-npm run electron
-```
-
-### Building for Production
-
-- **Mobile:** Use [EAS Build](https://docs.expo.dev/build/introduction/) for Android/iOS binaries
-- **Desktop:**
-  ```sh
-  npm run build-electron
-  ```
-  Installers will be in the `dist/` folder.
-
-### Automated Releases
-
-When you push a tag like `v1.0.0` to GitHub, the app will be built for all platforms and release assets will be attached automatically.
-
-## Troubleshooting
-
-### Web/Electron: "Cannot find module 'expo-sqlite'"
-- This error means expo-sqlite is being imported on web/desktop. Only crossPlatformDb.native.ts should reference expo-sqlite.
-- Make sure you do NOT import expo-sqlite anywhere else.
-- Only import db from '../utils/crossPlatformDb' (no extension) in your code.
-- Delete src/utils/crossPlatformDb.ts if it exists, or ensure it only exports undefined.
-- Do a clean install and clear cache:
-  ```sh
-  rm -rf node_modules package-lock.json yarn.lock
-  npm install
-  npx expo start -c
-  ```
-
-## Contributing
-
-Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
+## Limitations
+- This version does not support iOS/Android/Electron.
+- For mobile or desktop support, use the main branch and follow platform-specific setup.
 
 ## License
-
 MIT
