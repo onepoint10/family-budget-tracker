@@ -84,6 +84,20 @@ npm run electron
 
 When you push a tag like `v1.0.0` to GitHub, the app will be built for all platforms and release assets will be attached automatically.
 
+## Troubleshooting
+
+### Web/Electron: "Cannot find module 'expo-sqlite'"
+- This error means expo-sqlite is being imported on web/desktop. Only crossPlatformDb.native.ts should reference expo-sqlite.
+- Make sure you do NOT import expo-sqlite anywhere else.
+- Only import db from '../utils/crossPlatformDb' (no extension) in your code.
+- Delete src/utils/crossPlatformDb.ts if it exists, or ensure it only exports undefined.
+- Do a clean install and clear cache:
+  ```sh
+  rm -rf node_modules package-lock.json yarn.lock
+  npm install
+  npx expo start -c
+  ```
+
 ## Contributing
 
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
