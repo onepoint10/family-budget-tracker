@@ -2,7 +2,6 @@
   "name": "family-budget-tracker",
   "version": "1.0.0",
   "description": "A modern, cross-platform family budget tracking application",
-  "main": "index.js",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
